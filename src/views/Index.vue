@@ -5,7 +5,7 @@
     <div class="doc-content">
       <div class="doc-title" v-if="isShow()">
         <div class="doc-title-position" :class="{ fixed: fixed, hidden: hidden }">
-          <div class="title">{{ componentName.name }}&nbsp;{{ componentName.cName }}</div>
+          <div class="title">{{ componentName.name }}&nbsp;{{ isZh ? componentName.cName : '' }}</div>
           <doc-issue class=""></doc-issue>
         </div>
       </div>
@@ -65,6 +65,7 @@ import { RefData } from '@/assets/util/ref';
 import { ApiService } from '@/service/ApiService';
 import { Button } from '@nutui/nutui';
 import { isJDT } from '@/assets/util';
+import { useLocale } from '@/assets/util/locale';
 
 export default defineComponent({
   name: 'doc',
@@ -79,6 +80,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const { isZh } = useLocale();
     const state = reactive({
       fixed: false, // 是否吸顶
       hidden: false, // 是否隐藏
@@ -239,7 +241,8 @@ export default defineComponent({
       isShow,
       isShowTaroDoc,
       language,
-      contributorsData
+      contributorsData,
+      isZh
     };
   }
 });
@@ -368,7 +371,7 @@ $doc-title-height: 137px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 40px;
+      padding: 24px 40px;
       // line-height: 56px;
       border-bottom: 1px solid #eee;
       background: #fff;
