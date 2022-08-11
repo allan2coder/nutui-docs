@@ -2,7 +2,7 @@
   <div class="doc-footer" :class="`doc-footer-${themeColor}`">
     <div class="doc-footer-content" :class="!showLogo ? 'minisize' : ''">
       <div class="doc-footer-list" v-if="showLogo">
-        <img class="doc-footer-logo" v-if="isJDT()" src="@/assets/images/logo-blue-footer.png" />
+        <img class="doc-footer-logo" v-if="isJDT()" src="@/assets/images/logo-blue-jdt-footer.png" />
         <img
           class="doc-footer-logo"
           v-else-if="language.toLowerCase() == 'vue'"
@@ -14,17 +14,18 @@
         <h4 class="doc-footer-title">相关产品</h4>
 
         <div class="doc-footer-item"
+          ><a class="sub-link" target="_blank" href="https://taro.jd.com" v-hover>Taro</a>
+        </div>
+        <div class="doc-footer-item"
           ><a class="sub-link" target="_blank" href="https://nutui.jd.com/cat/#/" v-hover>Cat</a>
         </div>
         <div class="doc-footer-item"
           ><a class="sub-link" target="_blank" href="https://nutui.jd.com/bingo/#/" v-hover>Bingo</a>
         </div>
-        <div class="doc-footer-item"
-          ><a class="sub-link" target="_blank" href="https://taro.jd.com" v-hover>Taro</a>
-        </div>
-        <div class="doc-footer-item"
+
+        <!-- <div class="doc-footer-item"
           ><a class="sub-link" target="_blank" href="http://deco.jd.com/" v-hover>Deco</a>
-        </div>
+        </div> -->
         <div class="doc-footer-item"
           ><a class="sub-link" target="_blank" href="https://relay.jd.com" v-hover>Relay</a>
         </div>
@@ -107,7 +108,7 @@
       </div>
     </div>
     <p class="doc-footer-desc" v-if="isJDT()"
-      >Copyright © 2018~2022 京东零售 - 平台产品部 - 主站体验设计部 & 京东科技企业金融研发部</p
+      >Copyright © 2018~2022 京东零售平台产品主站体验设计部 & 京东科技企业金融研发部</p
     >
   </div>
 </template>
@@ -214,7 +215,6 @@ export default defineComponent({
     }
     &-desc {
       font-size: 12px;
-      line-height: 30px;
     }
     &-select-hd {
       width: 92px;

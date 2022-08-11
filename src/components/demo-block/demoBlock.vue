@@ -1,5 +1,17 @@
 <template>
-  <div class="online-code" ref="onlineCode">
+  <div class="online-code" ref="onlineCode" :class="{ scroll: scroll, isExpand: expand, win: win }">
+    <div class="expand fixed" @click="expand = !expand">
+      <img
+        class="icon-expand"
+        :style="{ display: expand ? 'block' : 'none' }"
+        src="../../assets/images/icon-expand.svg"
+      />
+      <img
+        class="icon-unexpand"
+        :style="{ display: expand ? 'none' : 'block' }"
+        src="../../assets/images/icon-unexpand.svg"
+      />
+    </div>
     <slot></slot>
     <div class="online-part">
       <template v-if="codeType === 'vue'">
@@ -25,6 +37,18 @@
         />
         <div class="online-tips">复制代码</div>
       </div>
+      <!-- <div class="list expand" @click="expand = !expand">
+        <img
+          class="icon-expand"
+          :style="{ 'display': expand ? 'block' : 'none' }"
+          src="../../assets/images/icon-expand.svg"
+        />
+        <img
+          class="icon-unexpand"
+          :style="{ 'display': expand ? 'none' : 'block' }"
+          src="../../assets/images/icon-unexpand.svg"
+        />
+      </div> -->
     </div>
   </div>
 </template>
@@ -87,6 +111,9 @@ export default defineConfig({
   plugins: [vue()]
 });`;
 
+    const expand = ref(false); // 展开收起态
+    const scroll = ref(false); // 代码块是否滚动
+    const win = ref(false); // 判断是否是windows系统
     const onlineCode = ref(null);
     const codeType = ref(``);
     const sourceMainJs = compressText(sourceMainJsStr);
@@ -98,9 +125,18 @@ export default defineConfig({
     const jumpHref = ref(``);
     const jumpHref1 = ref(``);
     onMounted(() => {
+      OSnow();
       const sourceValue = decompressText(onlineCode.value.dataset.value);
       codeType.value = onlineCode.value.dataset.type;
-
+      // console.log('onlineCode', onlineCode)
+      console.log('childNodes', onlineCode.value.childNodes[2].childNodes[0].offsetHeight);
+      // console.log('childNodes', onlineCode.value.childNodes[2].childNodes[0])
+      let o_height = onlineCode.value.childNodes[2].childNodes[0].offsetHeight;
+      if (o_height > 400) {
+        console.log('4000');
+        scroll.value = true;
+      }
+      // console.log('children', onlineCode)
       const parameters = getParameters({
         files: {
           'package.json': {
@@ -143,12 +179,22 @@ export default defineConfig({
         alert('复制成功');
       });
     };
+    /* 判断系统类型 */
+    const OSnow = () => {
+      var isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+      if (!isMac) {
+        win.value = true;
+      }
+    };
     return {
       jumpHref,
       jumpHref1,
       onlineCode,
       copyCode,
-      codeType
+      codeType,
+      expand,
+      scroll,
+      win
     };
   }
 };
