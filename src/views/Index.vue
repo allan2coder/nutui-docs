@@ -5,23 +5,59 @@
     <div class="doc-content">
       <div class="doc-title" v-if="isShow()">
         <div class="doc-title-position" :class="{ fixed: fixed, hidden: hidden }">
-          <div class="title">{{ componentName.name }}&nbsp;{{ isZh ? componentName.cName : '' }}</div>
+          <div class="doc-title-content">
+            <div class="title">{{ componentName.name }}&nbsp;{{ isZh ? componentName.cName : '' }}</div>
+            <div
+              class="doc-content-tabs"
+              :class="{ hidden: !fixed }"
+              v-if="isShow() && isShowTaroDoc && (language == 'vue' || language == 'react')"
+            >
+              <template v-for="item in tabs">
+                <div
+                  class="tab-item"
+                  :class="{ cur: curKey === item.key }"
+                  :key="item.key"
+                  v-if="item.key == language || item.key == 'taro'"
+                  @click="handleTabs(item.key)"
+                >
+                  {{ item.text }}
+                </div>
+              </template>
+            </div>
+            <div
+              class="doc-content-tabs single"
+              :class="{ hidden: !fixed }"
+              v-if="isShow() && !isShowTaroDoc && (language == 'vue' || language == 'react')"
+            >
+              <div class="tab-item cur">{{ language == 'react' ? 'react' : 'vue' }} / taro</div>
+            </div>
+          </div>
           <doc-issue class=""></doc-issue>
         </div>
       </div>
       <div class="doc-content-document" :class="{ isComponent: isShow(), full: !isShow() }">
-        <div class="doc-content-tabs" v-if="isShow() && isShowTaroDoc && language == 'vue'">
-          <div
-            class="tab-item"
-            :class="{ cur: curKey === item.key }"
-            v-for="item in tabs"
-            :key="item.key"
-            @click="handleTabs(item.key)"
-            >{{ item.text }}</div
-          >
+        <div
+          class="doc-content-tabs"
+          :class="{ hidden: fixed }"
+          v-if="isShow() && isShowTaroDoc && (language == 'vue' || language == 'react')"
+        >
+          <template v-for="item in tabs">
+            <div
+              class="tab-item"
+              :class="{ cur: curKey === item.key }"
+              :key="item.key"
+              v-if="item.key == language || item.key == 'taro'"
+              @click="handleTabs(item.key)"
+              >{{ item.text }}</div
+            >
+          </template>
         </div>
-        <div class="doc-content-tabs single" v-if="isShow() && !isShowTaroDoc && language == 'vue'">
-          <div class="tab-item cur">vue / taro</div>
+        <div
+          class="doc-content-tabs single"
+          :class="{ hidden: fixed }"
+          v-if="isShow() && !isShowTaroDoc && (language == 'vue' || language == 'react')"
+        >
+          <div class="tab-item cur">{{ language == 'react' ? 'react' : 'vue' }} / taro</div>
         </div>
 
         <router-view />
@@ -98,6 +134,10 @@ export default defineComponent({
         {
           key: 'vue',
           text: 'vue'
+        },
+        {
+          key: 'react',
+          text: 'react'
         },
         {
           key: 'taro',
@@ -201,7 +241,7 @@ export default defineComponent({
     onMounted(async () => {
       componentTitle();
       watchDemoUrl(route);
-      data.curKey = isTaro(route) ? 'taro' : 'vue';
+      data.curKey = isTaro(route) ? 'taro' : language;
       getContributors(route);
 
       document.addEventListener('scroll', scrollTitle);
@@ -245,7 +285,7 @@ export default defineComponent({
 
     onBeforeRouteUpdate((to) => {
       watchDemoUrl(to);
-      data.curKey = isTaro(to) ? 'taro' : 'vue';
+      data.curKey = isTaro(to) ? 'taro' : language;
       getContributors(to);
       componentTitle(to);
       getFaqs(to);
@@ -319,6 +359,10 @@ $doc-title-height: 137px;
           background: #fff;
         }
       }
+      &.hidden {
+        visibility: hidden;
+        opacity: 0;
+      }
     }
     &-contributors {
       margin: 40px 0;
@@ -384,6 +428,12 @@ $doc-title-height: 137px;
     width: 100%;
     height: $doc-title-height;
     z-index: 2;
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: calc(100% - 408px);
+    }
     &-position {
       top: 0px;
       display: flex;
@@ -404,6 +454,9 @@ $doc-title-height: 137px;
         .title {
           font-size: 24px;
           font-weight: bold;
+        }
+        .doc-content-tabs {
+          position: revert;
         }
       }
       &.hidden {

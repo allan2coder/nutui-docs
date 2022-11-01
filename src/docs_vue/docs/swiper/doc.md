@@ -14,7 +14,8 @@ import { Swiper,SwiperItem } from '@nutui/nutui';
 import { Swiper,SwiperItem } from '@nutui/nutui-taro';
 
 const app = createApp();
-app.use(Swiper).use(SwiperItem);
+app.use(Swiper);
+app.use(SwiperItem);
 ```
 
 ### 基础用法
@@ -542,7 +543,7 @@ app.use(Swiper).use(SwiperItem);
 
 
 
-### API
+### Swipe 方法
 
 | 事件名           | 说明                   | 参数     |
 | ---------------- | ---------------------- | ------------ |

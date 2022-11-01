@@ -71,19 +71,19 @@ const App = () => {
       ],
     },
   ]
-  const clickItem = (key: string, item: any) => {
+  const onClickItem = (key: string, item: any) => {
     console.log(key, JSON.stringify(item))
   }
 
-  const clickIndex = (key: string) => {
+  const onClickIndex = (key: string) => {
     console.log(key)
   }
   return (
     <Elevator
       indexList={dataList}
       height="260"
-      clickItem={(key: string, item: any) => clickItem(key, item)}
-      clickIndex={(key: string) => clickIndex(key)}
+      onClickItem={(key: string, item: any) => onClickItem(key, item)}
+      onClickIndex={(key: string) => onClickIndex(key)}
     />
   )
 }
@@ -203,11 +203,11 @@ const App = () => {
       ],
     },
   ]
-  const clickItem = (key: string, item: any) => {
+  const onClickItem = (key: string, item: any) => {
     console.log(key, JSON.stringify(item))
   }
 
-  const clickIndex = (key: string) => {
+  const onClickIndex = (key: string) => {
     console.log(key)
   }
   return (
@@ -215,8 +215,8 @@ const App = () => {
       indexList={dataList}
       height="220"
       acceptKey="num"
-      clickItem={(key: string, item: any) => clickItem(key, item)}
-      clickIndex={(key: string) => clickIndex(key)}
+      onClickItem={(key: string, item: any) => onClickItem(key, item)}
+      onClickIndex={(key: string) => onClickIndex(key)}
     />
   )
 }
@@ -349,11 +349,11 @@ const App = () => {
       ],
     },
   ]
-  const clickItem = (key: string, item: any) => {
+  const onClickItem = (key: string, item: any) => {
     console.log(key, JSON.stringify(item))
   }
 
-  const clickIndex = (key: string) => {
+  const onClickIndex = (key: string) => {
     console.log(key)
   }
   return (
@@ -361,8 +361,8 @@ const App = () => {
       indexList={dataList}
       height="220"
       isSticky
-      clickItem={(key: string, item: any) => clickItem(key, item)}
-      clickIndex={(key: string) => clickIndex(key)}
+      onClickItem={(key: string, item: any) => onClickItem(key, item)}
+      onClickIndex={(key: string) => onClickIndex(key)}
     />
   )
 }
@@ -431,19 +431,19 @@ const App = () => {
       ],
     },
   ]
-  const clickItem = (key: string, item: any) => {
+  const onClickItem = (key: string, item: any) => {
     console.log(key, JSON.stringify(item))
   }
 
-  const clickIndex = (key: string) => {
+  const onClickIndex = (key: string) => {
     console.log(key)
   }
   return (
     <Elevator
       indexList={dataList}
       height="260"
-      clickItem={(key: string, item: any) => clickItem(key, item)}
-      clickIndex={(key: string) => clickIndex(key)}
+      onClickItem={(key: string, item: any) => onClickItem(key, item)}
+      onClickIndex={(key: string) => onClickIndex(key)}
     >
       <elevatorContext.Consumer>
         {(value) => {
@@ -467,18 +467,21 @@ export default App
 
 ### Props
 
-| 字段      | 说明           | 类型                                                        | 默认值                |
-| --------- | -------------- | ----------------------------------------------------------- | --------------------- |
-| height    | 电梯区域的高度 | Number、String                                              | `200px`               |
-| acceptKey | 索引 key 值    | String                                                      | `title`               |
-| indexList | 索引列表       | Array（item 需包含 id、name 属性, name 支持传入 html 结构） | `[{id: 0, name: ''}]` |
-| isSticky            | 索引是否吸顶                                                    | Boolean  | `false` |
-| spaceHeight             | 右侧锚点的上下间距                                                   | Number  | `23` |
-| titleHeight             | 左侧索引的高度                                                     | Number  | `35` |
+| 字段                  | 说明           | 类型                                                        | 默认值                |
+|---------------------| -------------- | ----------------------------------------------------------- | --------------------- |
+| height              | 电梯区域的高度 | Number、String                                              | `200px`               |
+| acceptKey           | 索引 key 值    | String                                                      | `title`               |
+| indexList           | 索引列表       | Array（item 需包含 id、name 属性, name 支持传入 html 结构） | `[{id: 0, name: ''}]` |
+| isSticky`v1.2.1`    | 索引是否吸顶                                                    | Boolean  | `false` |
+| spaceHeight`v1.2.1` | 右侧锚点的上下间距                                                   | Number  | `23` |
+| titleHeight`v1.2.1`   | 左侧索引的高度                                                     | Number  | `35` |
 
 ### Event
 
 | 名称       | 说明     | 回调参数                               |
 | ---------- | -------- | -------------------------------------- |
-| clickItem  | 点击内容 | key: string, item: { id: 0, name: '' } |
-| clickIndex | 点击索引 | key: string                            |
+| onClickItem`v1.3.2`  | 点击内容 | key: string, item: { id: 0, name: '' } |
+| onClickIndex`v1.3.2` | 点击索引 | key: string                            |
+| clickItem`v1.3.2(废弃)`  | 点击内容 | key: string, item: { id: 0, name: '' } |
+| clickIndex`v1.3.2(废弃)` | 点击索引 | key: string                            |
+

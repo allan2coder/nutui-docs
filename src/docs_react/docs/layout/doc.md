@@ -64,8 +64,8 @@ const App = () => {
   )
 };
 export default App;
-
 ```
+:::
 
 :::demo
 ### 分栏间隔
@@ -91,6 +91,8 @@ const App = () => {
 };
 export default App;
 ```
+:::
+
 
 :::demo
 ### Flex布局
@@ -177,7 +179,7 @@ const App = () => {
 }
 export default App;
 ```
-
+:::
 
 ## API
 
@@ -196,4 +198,17 @@ export default App;
 | 字段 | 说明           | 类型     | 默认值           |
 |--------|----------------|--------------| ------------------|
 | span  | 列元素宽度（共分为24份，例如设置一行3个，那么span值为8） | String、Number| 24|
-| offset  | 列元素偏移距离 | String、Number| 0|
+| offset  | 列元素偏移距离 | String、Number| 0 |
+
+### row events
+
+| 字段 | 说明 | 回调参数 |
+|----- | ----- | ----- |
+| onClick`v1.3.0` | 点击时触发 | event: MouseEvent, type: 'row' | 'col' |
+
+### col events
+
+| 字段 | 说明 | 回调参数 |
+|----- | ----- | ----- |
+| onClick`v1.3.0` | 点击时触发 | event: MouseEvent, type: 'row' | 'col' |
+

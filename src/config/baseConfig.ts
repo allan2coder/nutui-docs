@@ -12,7 +12,7 @@ export const SiteReact = {
     git: 'https://github.com/jdf2e/nutui-react',
     gitee: '',
     releases: 'https://github.com/jdf2e/nutui-react/releases', // git 更新日志
-    issues: 'https://github.com/jdf2e/nutui-react/issues',
+    issues: 'https://nutui.jd.com/nutui-issue-helper/?repo=jdf2e/nutui-react&lang=zh-cn',
     discussions: 'https://github.com/jdf2e/nutui-react/discussions',
     plan: 'https://github.com/jdf2e/nutui/projects/1'
   },
@@ -47,14 +47,14 @@ export const SiteReact = {
     {
       name: 'resource',
       cName: '资源',
-      path: '/zh-CN/guide/resource',
-      pathName: '/zh-CN/guide/resource'
+      path: '/zh-CN/resource',
+      pathName: '/zh-CN/resource'
     },
     {
       name: 'notice',
       cName: '通知',
-      path: '/zh-CN/guide/notice',
-      pathName: '/zh-CN/guide/notice'
+      path: '/zh-CN/notice',
+      pathName: '/zh-CN/notice'
     },
     {
       name: 'joinus',
@@ -76,24 +76,24 @@ export const SiteReact = {
         desc: 'React Vite 2.x TypeScript',
         url: homefeatures3
       },
-      //   {
-      //     title: '适配多端',
-      //     desc: '基于 Taro 轻松开发多端小程序',
-      //     url: homefeatures5
-      //   },
       {
-        title: '组件丰富',
-        desc: '40+ 组件，覆盖多数业务场景',
-        url: homefeatures2
+        title: '适配多端',
+        desc: '基于 Taro 轻松开发多端小程序',
+        url: homefeatures5
       },
       {
-        title: '贴心通道',
-        desc: '社区维护 高效服务<br />技术支持 经验沉淀',
-        url: homefeatures4
+        title: '组件丰富',
+        desc: '60+ 组件，覆盖多数业务场景',
+        url: homefeatures2
       }
+      // {
+      //   title: '贴心通道',
+      //   desc: '社区维护 高效服务<br />技术支持 经验沉淀',
+      //   url: homefeatures4
+      // }
     ],
     // 是否展示taro楼层
-    taroShow: false,
+    taroShow: true,
     bizComponent: [],
     cases: {
       show: false
@@ -101,7 +101,7 @@ export const SiteReact = {
     // 学习资源
     article: {
       show: true,
-      moreRouter: '#/resource'
+      moreRouter: '#/zh-CN/resource'
     }
   },
   language: 'react'
@@ -113,7 +113,7 @@ export const SiteVue = {
     git: 'https://github.com/jdf2e/nutui',
     gitee: 'https://gitee.com/jd-platform-opensource/nutui',
     releases: 'https://github.com/jdf2e/nutui/releases', // git 更新日志
-    issues: 'https://github.com/jdf2e/nutui/issues',
+    issues: 'https://nutui.jd.com/nutui-issue-helper/?repo=jdf2e/nutui&lang=zh-cn',
     discussions: 'https://github.com/jdf2e/nutui/discussions',
     plan: 'https://github.com/jdf2e/nutui/projects/1'
   },
@@ -146,7 +146,7 @@ export const SiteVue = {
 
   header: [
     {
-      name: 'intro-jdt,intro,theme,start,start-jdt,starttaro,international,ide,contributing',
+      name: 'intro-jdt,intro,theme,start,start-jdt,starttaro,international,ide,contributing,en-intro,en-start,en-starttaro,en-theme,en-international,en-ide,en-contributing',
       cName: '指南',
       eName: 'Guide',
       path: '/zh-CN/guide/intro',
@@ -165,25 +165,25 @@ export const SiteVue = {
     //   path: 'demo.html'
     // },
     {
-      name: '/zh-CN/guide/case',
+      name: '/zh-CN/case',
       cName: '案例',
       eName: 'Cases',
-      path: '/zh-CN/guide/case',
+      path: '/zh-CN/case',
       pathName: 'case'
     },
     {
       name: 'resource',
       cName: '资源',
       eName: 'Resource',
-      path: '/zh-CN/guide/resource',
-      pathName: '/zh-CN/guide/resource'
+      path: '/zh-CN/resource',
+      pathName: '/zh-CN/resource'
     },
     {
       name: 'notice',
       cName: '通知',
       eName: 'Notice',
-      path: '/zh-CN/guide/notice',
-      pathName: '/zh-CN/guide/notice'
+      path: '/zh-CN/notice',
+      pathName: '/zh-CN/notice'
     },
     {
       name: 'joinus',
@@ -242,14 +242,14 @@ export const SiteVue = {
     // 应用案例
     cases: {
       show: true,
-      moreRouter: '#/zh-CN/guide/case'
+      moreRouter: '#/zh-CN/case'
     },
     //是否展示二维码
     qrcodeShow: true,
     // 学习资源
     article: {
       show: true,
-      moreRouter: '#/zh-CN/guide/resource'
+      moreRouter: '#/zh-CN/resource'
     }
   },
   language: 'vue'
@@ -261,7 +261,7 @@ export const SiteJDT = {
     git: 'https://github.com/jdf2e/nutui',
     gitee: 'https://gitee.com/jd-platform-opensource/nutui',
     releases: 'https://github.com/jdf2e/nutui/releases', // git 更新日志
-    issues: 'https://github.com/jdf2e/nutui/issues',
+    issues: 'https://nutui.jd.com/nutui-issue-helper/?repo=jdf2e/nutui&lang=zh-cn',
     discussions: 'https://github.com/jdf2e/nutui/discussions',
     plan: 'https://github.com/jdf2e/nutui/projects/1'
   },
@@ -308,7 +308,7 @@ export const SiteJDT = {
         show: true
       },
       {
-        name: 'starttaro',
+        name: 'starttaro-jdt',
         cName: '小程序开发',
         eName: 'WeChat',
         show: true
@@ -362,6 +362,20 @@ export const SiteJDT = {
       eName: 'Components',
       path: '/zh-CN/component/button',
       pathName: 'zh-CN/component/button'
+    },
+    {
+      name: '/zh-CN/case',
+      cName: '案例',
+      eName: 'Cases',
+      path: '/zh-CN/case',
+      pathName: 'case'
+    },
+    {
+      name: 'resource',
+      cName: '资源',
+      eName: 'Resource',
+      path: '/zh-CN/resource',
+      pathName: '/zh-CN/resource'
     }
   ],
   // 官网 首页
@@ -408,14 +422,14 @@ export const SiteJDT = {
     // 应用案例
     cases: {
       show: true,
-      moreRouter: '#/zh-CN/guide/case'
+      moreRouter: '#/zh-CN/case'
     },
     //是否展示二维码
     qrcodeShow: true,
     // 学习资源
     article: {
       show: true,
-      moreRouter: '#/zh-CN/guide/resource'
+      moreRouter: '#/zh-CN/resource'
     }
   },
   language: 'vue',
@@ -428,7 +442,7 @@ export const SiteJDB = {
     git: 'https://github.com/jdf2e/nutui',
     gitee: 'https://gitee.com/jd-platform-opensource/nutui',
     releases: 'https://github.com/jdf2e/nutui/releases', // git 更新日志
-    issues: 'https://github.com/jdf2e/nutui/issues',
+    issues: 'https://nutui.jd.com/nutui-issue-helper/?repo=jdf2e/nutui&lang=zh-cn',
     discussions: 'https://github.com/jdf2e/nutui/discussions',
     plan: 'https://github.com/jdf2e/nutui/projects/1'
   },
@@ -580,15 +594,18 @@ export const SiteJDB = {
     // 应用案例
     cases: {
       show: true,
-      moreRouter: '#/zh-CN/guide/case'
+      moreRouter: '#/zh-CN/case'
     },
     //是否展示二维码
     qrcodeShow: true,
     // 学习资源
     article: {
       show: true,
-      moreRouter: '#/zh-CN/guide/resource'
+      moreRouter: '#/zh-CN/resource'
     }
   },
   language: 'vue'
 };
+
+// Vue JDDKH 官网配置
+export const SiteJDDKH = SiteJDB;

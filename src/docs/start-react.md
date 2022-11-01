@@ -33,50 +33,6 @@ ReactDOM.render(
 
 NutUI-React 默认支持基于 ES modules 的 tree shaking，对于 JS 部分，直接引入 `import { Button } from '@nutui/nutui-react'` 就会有按需加载的效果。因此仅样式不是按需导入的，因此只需按需导入样式即可。
 
-#### Vite 构建工具 通过 vite-plugin 使用按需加载
-
-由于 vite 本身已按需导入了组件库，因此仅样式不是按需导入的，因此只需按需导入样式即可。
-
-[Vite](https://vitejs.dev/) 构建工具，使用 [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import) 实现按需引入。
-
-#### 安装插件
-
-`npm install vite-plugin-style-import --save-dev`
-
-在 vite.config 中添加配置：
-
-```typescript
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import styleImport from "vite-plugin-style-import";
-// https://vitejs.dev/config/
-export default defineConfig({
-  css: {
-    preprocessorOptions: {
-      scss: {
-        // 配置 nutui 全局 scss 变量
-        additionalData: `@import "@nutui/nutui-react/dist/styles/variables.scss";`,
-      },
-    },
-  },
-  plugins: [
-    react(),
-    styleImport({
-      libs: [
-        {
-          libraryName: "@nutui/nutui-react",
-          libraryNameChangeCase: "pascalCase",
-          resolveStyle: (name) => {
-            return `@nutui/nutui-react/dist/packages/${name.toLowerCase()}/${name.toLowerCase()}.scss`;
-          },
-        },
-      ],
-    }),
-  ],
-});
-
-```
-
 #### WebPack 构建工具 通过 babel 使用按需加载
 
 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) 是一款 babel 插件，它会在编译过程中将 import 语句自动转换为按需引入的方式。
@@ -112,6 +68,100 @@ scss: {
 }
 //...
 ```
+
+### Create React App 通过 craco 使用按需加载
+
+#### 创建项目
+
+```shell
+npx create-react-app myNutUI-React
+```
+
+#### 安装 craco 以及相关插件
+
+```shell
+// 示例采用最新版本的 @craco/craco
+npm i --save-dev @craco/craco
+npm i --save-dev sass
+npm i --save-dev babel-plugin-import
+```
+
+#### 添加 craco 配置，`craco.config.js`
+
+```js
+module.exports = {
+    reactScriptsVersion: "react-scripts",
+    style: {
+        sass: {
+            loaderOptions: {
+                sourceMap: true,
+                additionalData: `@import "@nutui/nutui-react/dist/styles/variables.scss";` /* Any sass-loader configuration options: https://github.com/webpack-contrib/sass-loader. */,
+            },
+        },
+    },
+    babel: {
+        plugins: [
+            [
+                "import",
+                {
+                    libraryName: "@nutui/nutui-react",
+                    libraryDirectory: "dist/esm",
+                    style: true,
+                    camel2DashComponentName: false,
+                },
+                "nutui-react",
+            ],
+        ],
+    },
+}
+
+```
+
+#### Vite 构建工具 通过 vite-plugin 使用按需加载
+
+由于 vite 本身已按需导入了组件库，因此仅样式不是按需导入的，因此只需按需导入样式即可。
+
+[Vite](https://vitejs.dev/) 构建工具，使用 [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import) 实现按需引入。
+
+#### 安装插件
+
+`npm install vite-plugin-style-import --save-dev`
+
+在 vite.config 中添加配置：
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import styleImport from "vite-plugin-style-import";
+// https://vitejs.dev/config/
+export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 配置 nutui 全局 scss 变量
+        additionalData: `@import "@nutui/nutui-react/dist/styles/variables.scss";`,
+      },
+    },
+  },
+  plugins: [
+    react(),
+    styleImport({
+      libs: [
+        {
+          libraryName: "@nutui/nutui-react",
+          libraryNameChangeCase: "pascalCase",
+          resolveStyle: (name) => {
+            return `@nutui/nutui-react/dist/esm/${name}/style`
+          },
+        },
+      ],
+    }),
+  ],
+});
+
+```
+
+
 #### CDN 安装使用示例
 
 > 可以通过 CDN 的方式引入， 可以在 **jsdelivr** 和 **unpkg** 等公共 CDN 上获取到 NutUI。

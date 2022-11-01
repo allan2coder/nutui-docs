@@ -1,8 +1,66 @@
 <template>
   <doc-header></doc-header>
+
   <div class="doc-content" :class="themeName()">
-    <div :class="['doc-content-index', `${language.toLowerCase() === 'react' ? 'doc-content-index-react' : ''}`]">
-      <div :class="bannerName()">
+    <div :class="docContentIndex">
+      <!-- vue -->
+      <div class="doc-content-banner-box" v-if="language === 'vue'">
+        <div :class="bannerName()">
+          <div class="content-title">
+            NutUI<span v-if="language === 'react'" class="sub-content-title">-React</span></div
+          >
+          <div class="content-smile"> </div>
+          <div class="content-subTitle"
+            >京东风格的轻量级移动端 {{ language.replace(/^\S/, (s) => s.toUpperCase()) }} 组件库</div
+          >
+          <div class="content-button">
+            <div class="leftButton" @click="toIntro">
+              <div class="leftButtonText">开始使用</div>
+            </div>
+            <div class="rightButton">
+              <div class="rightButtonText">扫码体验</div>
+
+              <div class="qrcodepart">
+                <div class="qrcode-text"> 请使用手机扫码体验 </div>
+                <div :class="['qrcode', `qrcode-${language.toLowerCase()}`]"> </div>
+              </div>
+            </div>
+            <iframe
+              style="margin-left: 20px"
+              :src="homePage.gitstar"
+              frameborder="0"
+              scrolling="0"
+              width="170"
+              height="30"
+              title="GitHub"
+            ></iframe>
+          </div>
+        </div>
+
+        <div
+          :class="[
+            'doc-content-banner-img',
+            bannerList.length > 0 && !backgroundLoading ? 'doc-content-banner-imgcover' : ''
+          ]"
+        >
+          <div class="skew-box">
+            <div class="doc-content-banner-swiper">
+              <div class="swiper-container" v-if="bannerList.length > 0 && !backgroundLoading">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide" v-for="(arr, index) in bannerList" :key="index">
+                    <div class="swiper-slide-item"><img :src="arr.cover_image" /></div>
+                  </div>
+                </div>
+              </div>
+              <!-- 如果需要分页器 -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- react -->
+      <div :class="bannerName()" v-if="language === 'react'">
         <div class="content-title"> NutUI<span v-if="language === 'react'" class="sub-content-title">-React</span></div>
         <div class="content-smile"> </div>
         <div class="content-subTitle"
@@ -32,6 +90,7 @@
         </div>
       </div>
     </div>
+
     <div class="doc-content-features" v-if="homePage.platform.length">
       <div class="doc-content-hd">
         <h4 class="doc-content-title">平台特色</h4>
@@ -104,7 +163,7 @@
       </div>
 
       <div class="doc-content-desc"
-        >京东集团（京东零售、京东科技、京东物流、京东工业、京东健康）累计应用项目 400+，外部累计应用项目 2,200+</div
+        >京东集团（京东零售、京东科技、京东物流、京东工业、京东健康）累计应用项目 400+，外部累计应用项目 1,500+</div
       >
 
       <div class="doc-content-cases-content">
@@ -174,6 +233,7 @@ import { defineComponent, onMounted, reactive, toRefs, computed, ref } from 'vue
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import { RefData } from '@/assets/util/ref';
+import { loadImageEnd } from '@/assets/util/loadImageEnd';
 import { ApiService } from '@/service/ApiService';
 import 'swiper/swiper.min.css';
 import Swiper from 'swiper/swiper-bundle.min.js';
@@ -198,16 +258,67 @@ export default defineComponent({
       currentCaseIndex: 0,
       localTheme: localStorage.getItem('nutui-theme-color'),
       showAwait: false,
-      qrcodeList: []
+      qrcodeList: [],
+      bannerList: [],
+      backgroundLoading: true
     });
     let caseSwiper: any = null;
     let qrcodeSwiper: any = null;
+    let bannerSwiper: any = null;
 
     onMounted(() => {
       if (homePage.article.show) getArticle();
       if (homePage.cases.show) getCasesImages();
       if (homePage.qrcodeShow) getQRCode();
+
+      initBannerSwiper();
     });
+
+    const initBannerSwiper = () => {
+      const apiService = new ApiService();
+
+      const imgArr = [
+        'https://img10.360buyimg.com/imagetools/jfs/t1/29781/3/19183/142442/6332a685Eb8ac2a85/9880cdaea3a1ca14.png'
+      ];
+      loadImageEnd(imgArr, () => {
+        console.log('加载完');
+        data.backgroundLoading = false;
+
+        if (!bannerSwiper) renderBannerSwiper();
+      });
+      apiService.getBannerList().then((res) => {
+        if (res?.state == 0 && res?.value.data.length != 0) {
+          data.bannerList = [].concat(res.value.data.arrays);
+          console.log(data.backgroundLoading);
+          if (!data.backgroundLoading) renderBannerSwiper();
+        }
+      });
+    };
+
+    const renderBannerSwiper = () => {
+      console.log('更新 banner');
+      const self = data.bannerList;
+      setTimeout(() => {
+        bannerSwiper = new Swiper('.doc-content-banner-swiper .swiper-container', {
+          direction: 'horizontal',
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false
+          },
+          loop: true,
+          // 如果需要分页器
+          pagination: {
+            el: '.swiper-pagination'
+          },
+          on: {
+            click: (event) => {
+              const banner = self[event.realIndex];
+              if (banner && banner.link) window.open(banner.link);
+            }
+          }
+        });
+      }, 500);
+    };
     //获取案例二维码
     const getQRCode = () => {
       const apiService = new ApiService();
@@ -314,6 +425,13 @@ export default defineComponent({
         return RefData.getInstance().themeColor.value;
       };
     });
+    const docContentIndex = computed(() => {
+      let docContentIndexClass = `doc-content-index ${
+        language.toLowerCase() === 'react' ? 'doc-content-index-react' : ''
+      } ${location.hash.includes('jagile') ? 'jagile' : ''}`;
+
+      return docContentIndexClass;
+    });
     const toLink = (id: number) => {
       window.open('//jelly.jd.com/article/' + id);
     };
@@ -327,11 +445,16 @@ export default defineComponent({
     const toDetail = () => {
       window.open('/cat');
     };
+
+    const goBannerList = (banner: any) => {
+      if (banner && banner.link) window.open(banner.link);
+    };
     return {
       toIntro,
       ...toRefs(data),
       themeName,
       themeNameValue,
+      docContentIndex,
       toLink,
       onLeft,
       language,
@@ -343,7 +466,8 @@ export default defineComponent({
       hideAwait,
       bannerName,
       onQRLeft,
-      onQRRight
+      onQRRight,
+      goBannerList
     };
   }
 });
@@ -360,12 +484,12 @@ export default defineComponent({
   }
 }
 .doc-content-index {
-  .content-left {
-    background: url(https://storage.360buyimg.com/imgtools/a423faab46-8b142e80-8bb1-11eb-853a-6fded8704e77.png)
+  /* background: url(https://storage.360buyimg.com/imgtools/a423faab46-8b142e80-8bb1-11eb-853a-6fded8704e77.png)
       no-repeat;
-    background-size: 1126px 568px;
+    background-size: 1050px 540px;
     background-position-x: right;
-    background-position-y: 150px;
+    background-position-y: 110px; */
+  .content-left {
     .content-title {
       animation: fadeInLeft 1s both;
     }
@@ -386,13 +510,6 @@ export default defineComponent({
         animation: fadeInLeft 1s both 1.2s;
       }
     }
-  }
-  .react-content-left {
-    background: url(https://storage.360buyimg.com/imgtools/7cd27ba3eb-686f76e0-6ec9-11ec-8cd6-b10a2c66b169.png)
-      no-repeat;
-    background-size: 1126px 568px;
-    background-position-x: right;
-    background-position-y: 136px;
   }
 }
 </style>
@@ -423,8 +540,9 @@ export default defineComponent({
     font-size: 26px;
   }
   &-features {
+    position: relative;
     width: 1200px;
-    margin: 0 auto 90px;
+    margin: 50px auto 90px;
     .features-list {
       display: flex;
       justify-content: space-between;
@@ -829,18 +947,29 @@ export default defineComponent({
   }
 }
 .doc-content-index {
-  display: flex;
-  height: 926px;
-  /* margin-bottom: 70px; */
+  position: relative;
+  height: 780px;
   background-color: #070505;
-  min-width: 1200px;
+
+  &.doc-content-index-react {
+    display: flex;
+
+    .react-content-left {
+      flex: 1;
+      padding: 13% 0 0 8.8%;
+      background: url(https://storage.360buyimg.com/imgtools/7cd27ba3eb-686f76e0-6ec9-11ec-8cd6-b10a2c66b169.png)
+        no-repeat;
+      background-size: 1050px 540px;
+      background-position-x: right;
+      background-position-y: 116px;
+    }
+  }
+
   .content-left {
-    padding: 15% 0 0 8.8%;
-    // margin: auto 0;
-    flex: 1;
-    min-width: 550px;
+    position: relative;
+    z-index: 999;
+    padding-top: 6%;
     .content-title {
-      // line-height: 36px;
       font-size: 42px;
       color: rgba(255, 255, 255, 1);
     }
@@ -942,31 +1071,92 @@ export default defineComponent({
         }
       }
     }
+
+    &.react-content-left {
+      margin-right: 0;
+    }
+  }
+
+  .doc-content-banner-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 8% 0 0 10%;
+
+    .doc-content-banner-img {
+      position: absolute;
+      top: 140px;
+      right: 0;
+      width: 1050px;
+      transform: translateX(-100px);
+      flex: 1;
+      height: 540px;
+      background: url(https://storage.360buyimg.com/imgtools/a423faab46-8b142e80-8bb1-11eb-853a-6fded8704e77.png)
+        no-repeat;
+      background-size: 1050px 540px;
+      background-position-x: right;
+
+      &.doc-content-banner-imgcover {
+        background: url(https://img10.360buyimg.com/imagetools/jfs/t1/29781/3/19183/142442/6332a685Eb8ac2a85/9880cdaea3a1ca14.png)
+          no-repeat;
+        background-size: 1050px 540px;
+        background-position-x: right;
+      }
+
+      .skew-box {
+        position: absolute;
+        right: 88px;
+        top: 95px;
+        transform: skew(60deg, -27deg);
+
+        cursor: pointer;
+      }
+      .doc-content-banner-swiper {
+        .swiper-container {
+          width: 330px;
+          height: 150px;
+          box-shadow: 0 0 2px 2px rgb(0 0 0 / 10%);
+          border-radius: 10px;
+          background: #fff;
+        }
+
+        .swiper-slide-item {
+          width: 330px;
+          height: 150px;
+          overflow: hidden;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  &.jagile {
+    background: #fafafa;
+
+    .content-left {
+      background: url(https://img10.360buyimg.com/imagetools/jfs/t1/49482/4/21717/213471/62fb4eb2Ede06ec5d/472da889e6270355.png)
+        no-repeat;
+      background-size: 1126px 816px;
+      background-position-x: 600px;
+      background-position-y: 6px;
+
+      .content-title,
+      .content-subTitle {
+        color: #000;
+      }
+
+      .content-button {
+        .rightButton {
+          background-color: #fff;
+        }
+      }
+    }
   }
 }
-//.doc-content-index-react {
-//  height: 1012px;
-//  margin-bottom: 20px;
-//  .content-left {
-//    padding: 17.5% 0 0 8.8%;
-//    .content-title {
-//      font-size: 56px;
-//    }
-//    .content-subTitle {
-//      font-size: 36px;
-//    }
-//    .content-button {
-//      .leftButton,
-//      .rightButton {
-//        width: 170px;
-//        height: 50px;
-//      }
-//      .rightButton {
-//        margin-left: 40px;
-//      }
-//    }
-//  }
-//}
+
 .doc-content-black {
   background: $theme-black-content-bg;
   color: white;
@@ -984,6 +1174,7 @@ export default defineComponent({
   .doc-content-more {
     .more-title {
       color: #fff;
+      text-align: center;
     }
   }
   .doc-content-cases-content__main {
@@ -1053,5 +1244,30 @@ export default defineComponent({
 }
 .a-l {
   text-align: center;
+}
+</style>
+
+<style lang="scss">
+.swiper-pagination {
+  position: absolute;
+  width: 100%;
+  bottom: 8px !important;
+  z-index: 9999;
+  text-align: center;
+}
+.swiper-pagination-bullet {
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 2px;
+  background: $white !important;
+  transition: all 0.3s ease-in-out;
+  width: 8px !important;
+  height: 3px;
+  opacity: 0.5;
+  box-shadow: 0 0 4px 1px rgb(0 0 0 / 10%);
+  &.swiper-pagination-bullet-active {
+    width: 12px !important;
+    opacity: 1;
+  }
 }
 </style>

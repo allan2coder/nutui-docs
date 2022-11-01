@@ -11,10 +11,12 @@ import { createApp } from 'vue';
 import { Cell, CellGroup, Icon } from '@nutui/nutui';
 
 const app = createApp();
-app.use(Cell).use(CellGroup).use(Icon);
+app.use(Cell);
+app.use(CellGroup);
+app.use(Icon)
 ```
 
-### 基本用法
+### 基础用法
 
 :::demo
 
@@ -193,14 +195,14 @@ app.use(Cell).use(CellGroup).use(Icon);
 
 ## API
 
-### CellGroup Prop
+### CellGroup Props
 
 | 字段  | 说明     | 类型   | 默认值 |
 |-------|----------|--------|--------|
 | title | 分组标题 | String | -      |
 | desc  | 分组描述 | String | -      |
 
-### Cell Prop
+### Cell Props
 
 | 字段                    | 说明                                                                                           | 类型             | 默认值           |
 |-------------------------|------------------------------------------------------------------------------------------------|------------------|------------------|
@@ -221,13 +223,13 @@ app.use(Cell).use(CellGroup).use(Icon);
 | class-prefix`v3.2.1`    | 自定义icon 类名前缀，用于使用自定义图标                                                        | string           | `nut-icon`       |
 
 
-### Cell Event
+### Cell Events
 
 | 名称  | 说明     | 回调参数    |
 |-------|----------|-------------|
 | click | 点击事件 | event:Event |
 
-## Cell Slots
+### Cell Slots
 
 | 名称            | 说明                  |
 |-----------------|-----------------------|
@@ -236,7 +238,7 @@ app.use(Cell).use(CellGroup).use(Icon);
 | link            | 自定义右侧`link`区域  |
 | title `v3.1.22` | 自定义`title`标题区域 |
 
-## CellGroup Slots
+### CellGroup Slots
 
 | 名称            | 说明                  |
 |-----------------|-----------------------|

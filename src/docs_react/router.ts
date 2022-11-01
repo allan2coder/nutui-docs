@@ -36,6 +36,21 @@ for (const path in modulesEnPage) {
   });
 }
 
+const modulesPageTaro = (import.meta as any).glob('/src/docs_react/docs/**/*.taro.md');
+for (const path in modulesPageTaro) {
+  let name = (/docs_react\/docs\/(.*)\/doc.taro.md/.exec(path) as any[])[1];
+  pagesRouter.push({
+    path: `/zh-CN/component/${name}-taro`,
+    component: modulesPageTaro[path],
+    name: `zh-CN/component/${name}-taro`
+  });
+  pagesEnRouter.push({
+    path: `/en-US/component/${name}-taro`,
+    component: modulesPageTaro[path],
+    name: `en-US/component/${name}-taro`
+  });
+}
+
 /** vite */
 const modulesDocs = (import.meta as any).glob('/src/docs/*.md');
 for (const path in modulesDocs) {
@@ -96,18 +111,18 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/zh-CN/guide/case',
-    name: '/zh-CN/guide/case',
+    path: '/zh-CN/case',
+    name: '/zh-CN/case',
     component: Case
   },
   {
-    path: '/zh-CN/guide/resource',
-    name: '/zh-CN/guide/resource',
+    path: '/zh-CN/resource',
+    name: '/zh-CN/resource',
     component: Resource
   },
   {
-    path: '/zh-CN/guide/notice',
-    name: '/zh-CN/guide/notice',
+    path: '/zh-CN/notice',
+    name: '/zh-CN/notice',
     component: Notice
   }
 ];

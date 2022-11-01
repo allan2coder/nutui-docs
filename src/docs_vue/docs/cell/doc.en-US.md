@@ -11,7 +11,9 @@ import { createApp } from 'vue';
 import { Cell, CellGroup, Icon } from '@nutui/nutui';
 
 const app = createApp();
-app.use(Cell).use(CellGroup).use(Icon);
+app.use(Cell);
+app.use(CellGroup);
+app.use(Icon)
 ```
 
 ### Basic Usage
@@ -190,14 +192,14 @@ You can center the left and right contents of the cell vertically through the 'c
 
 ## API
 
-### CellGroup Prop
+### CellGroup Props
 
 | Attribute | Description | Type   | Default |
 |-----------|-------------|--------|---------|
 | title     | Title       | String | -       |
 | desc      | Description | String | -       |
 
-### Cell Prop
+### Cell Props
 
 | Attribute               | Description                                                                                              | Type             | Default          |
 |-------------------------|----------------------------------------------------------------------------------------------------------|------------------|------------------|
@@ -217,13 +219,13 @@ You can center the left and right contents of the cell vertically through the 'c
 | font-class-name`v3.2.1` | Custom icon font base class name                                                                         | String           | `nutui-iconfont` |
 | class-prefix`v3.2.1`    | Custom icon class name prefix for using custom icons                                                     | String           | `nut-icon`       |
 
-### Cell Event
+### Cell Events
 
 | Event | Description                  | Arguments   |
 |-------|------------------------------|-------------|
 | click | Emitted when cell is clicked | event:Event |
 
-## Cell Slots
+### Cell Slots
 
 | Name            | Description        |
 |-----------------|--------------------|
@@ -232,7 +234,7 @@ You can center the left and right contents of the cell vertically through the 'c
 | link            | Custom Right`link` |
 | title `v3.1.22` | Custom`title`slot  |
 
-## CellGroup Slots
+### CellGroup Slots
 
 | Name            | Description       |
 |-----------------|-------------------|

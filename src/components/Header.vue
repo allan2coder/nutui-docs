@@ -5,9 +5,9 @@
   </div> -->
   <div class="doc-header" :class="themeName()">
     <div class="header-logo">
-      <a class="logo-link" :class="{ [language]: language, jdb: isJDB() }" @click="toHome"></a>
+      <a class="logo-link" :class="{ [language]: language, jdb: isJDB(), jddkh: isJDDKH() }" @click="toHome"></a>
       <span class="logo-border"></span>
-      <span class="version" v-if="language == 'vue' && isJDB() == false">{{ version }}</span>
+      <span class="version" v-if="language == 'vue' && isJDB() == false && isJDDKH() == false">{{ version }}</span>
     </div>
     <div class="header-nav">
       <Search />
@@ -81,7 +81,7 @@ import { header, versions, version, nav, repository, language, guide } from '@/c
 import { RefData } from '@/assets/util/ref';
 import { useRouter } from 'vue-router';
 import { useLocale } from '@/assets/util/locale';
-import { isJDB } from '@/assets/util/index';
+import { isJDB, isJDDKH } from '@/assets/util/index';
 export default defineComponent({
   name: 'doc-header',
   components: {
@@ -129,11 +129,11 @@ export default defineComponent({
     };
 
     const toHome = () => {
-      if (isJDB()) {
+      if (isJDB() || isJDDKH()) {
         return;
       }
       RefData.getInstance().currentRoute.value = '/';
-      window.location.href = '#';
+      window.location.href = `${location.href.includes('jagile') ? '#?jagile=true' : '#'}`;
     };
 
     const toLink = (item: any) => {
@@ -173,6 +173,11 @@ export default defineComponent({
       data.isShowGuid = false;
       window.open(item.link);
     };
+
+    if (location.hash.includes('jagile')) {
+      header.splice(-1, 1);
+    }
+
     return {
       header,
       versions,
@@ -181,6 +186,7 @@ export default defineComponent({
       data,
       language,
       isJDB,
+      isJDDKH,
       toHome,
       isActive,
       checkGuidTheme,
@@ -222,7 +228,7 @@ export default defineComponent({
 .doc {
   &-header {
     // position: fixed;
-    z-index: 2;
+    z-index: 9999;
     top: 0px;
     left: 0;
     right: 0;
@@ -255,7 +261,8 @@ export default defineComponent({
       &.react {
         width: 197px;
       }
-      &.jdb {
+      &.jdb,
+      &.jddkh {
         width: 180px;
       }
     }
@@ -395,6 +402,9 @@ export default defineComponent({
           }
           &.jdb {
             background: url('@/assets/images/logo-header-white-jdb.png') no-repeat center/100%;
+          }
+          &.jddkh {
+            background: url('@/assets/images/logo-header-white-jddkh.png') no-repeat center/100%;
           }
         }
         .logo-border {
@@ -589,6 +599,9 @@ export default defineComponent({
           &.jdb {
             background: url('@/assets/images/logo-header-red-jdb.png') no-repeat center/100%;
           }
+          &.jddkh {
+            background: url('@/assets/images/logo-header-red-jddkh.png') no-repeat center/100%;
+          }
         }
         .logo-border {
           background: $theme-white-border;
@@ -781,6 +794,9 @@ export default defineComponent({
           }
           &.jdb {
             background: url('@/assets/images/logo-header-red-jdb.png') no-repeat center/100%;
+          }
+          &.jddkh {
+            background: url('@/assets/images/logo-header-red-jddkh.png') no-repeat center/100%;
           }
         }
         .logo-border {

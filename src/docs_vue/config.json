@@ -1,9 +1,9 @@
 {
-  "version": "3.2.1",
+  "version": "3.2.5",
   "nav": [
     {
       "name": "基础组件",
-      "enName": "base",
+      "enName": "basic",
       "packages": [
         {
           "version": "3.0.0",
@@ -1007,7 +1007,7 @@
           "desc": "给页面元素添加动画效果",
           "show": true,
           "taro": true,
-          "tarodoc": true,
+          "tarodoc": false,
           "type": "component",
           "author": "lijiamiao"
         },
@@ -1028,6 +1028,17 @@
           "cType": "展示组件",
           "cName": "水印",
           "desc": "页面上添加特定的文字或图案。适用于防止信息盗用。",
+          "show": true,
+          "tarodoc": false,
+          "type": "component",
+          "author": "liukun"
+        },
+        {
+          "version": "3.0.0",
+          "name": "TrendArrow",
+          "cType": "展示组件",
+          "cName": "趋势箭头",
+          "desc": "带有箭头指示的百分比数字,用以展示指标趋势",
           "show": true,
           "tarodoc": false,
           "type": "component",
@@ -1181,6 +1192,18 @@
           "tarodoc": false,
           "type": "component",
           "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Invoice",
+          "cType": "特色组件",
+          "cName": "发票",
+          "desc": "发票",
+          "show": true,
+          "tarodoc": false,
+          "type": "component",
+          "author": "ailululu",
+          "taro": true
         }
       ]
     }
